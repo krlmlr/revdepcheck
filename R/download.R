@@ -48,6 +48,7 @@ download_done <- function(state, worker) {
   if (!length(tarball)) {
     n_attempts <- worker$task$args[[2]]
     if (n_attempts > 20L) {
+      wpkg <- match(worker$package, state$packages$package)
       state$packages$state[wpkg] <- "download-failed"
       return(state)
     } else {
