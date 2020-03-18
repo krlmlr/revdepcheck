@@ -48,7 +48,8 @@ download_done <- function(state, worker) {
   if (!length(tarball)) {
     n_attempts <- worker$task$args[[2]]
     if (n_attempts > 20L) {
-      stop(sprintf("Failed downloading package %s", pkgname), call. = FALSE)
+      state$packages$state[wpkg] <- "download-failed"
+      return(state)
     } else {
       return(download_task(state, task("download", pkgname, n_attempts + 1L)))
     }
