@@ -1,7 +1,7 @@
 
 cran_revdeps <- function(package, dependencies = TRUE, bioc = FALSE) {
   pkgs <- cran_revdeps_versions(package, dependencies, bioc)$package
-  pkgs[order(tolower(pkgs))]
+  pkgs[order(get_n_deps(pkgs, bioc))]
 }
 
 #' @importFrom remotes bioc_install_repos
@@ -70,4 +70,19 @@ parse_deps <- function(deps) {
 
   res[notempty] <- deps
   res
+}
+
+get_n_deps <- function(pkgs, bioc) {
+  repos <- get_repos(bioc)
+  allpkgs <- available_packages(repos = repos)
+  first_deps <- tools::package_dependencies(
+    pkgs, allpkgs,
+    which = c("Depends", "Imports", "LinkingTo", "Suggests")
+  )
+  map_int(first_deps, get_n_strong_deps, allpkgs)
+}
+
+get_n_strong_deps <- function(pkgs, allpkgs) {
+  recursive_deps <- tools::package_dependencies(pkgs, allpkgs)
+  length(unique(c(pkgs, unlist(recursive_deps))))
 }
