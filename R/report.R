@@ -185,8 +185,7 @@ num_deps <- function(pkg) {
 }
 
 num_revdeps <- function(pkg) {
-  repos <- get_repos(bioc = TRUE)
-  length(cran_revdeps(pkg, repos))
+  length(cran_revdeps(pkg, bioc = TRUE))
 }
 
 pkg_source_link <- function(chk) {
