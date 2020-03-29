@@ -87,6 +87,8 @@ revdep_env_vars <- function(force_suggests = FALSE) {
       c("_R_CHECK_CRAN_INCOMING_" = "FALSE")
     },
     "_R_CHECK_FORCE_SUGGESTS_" = as.character(force_suggests),
+    # https://yihui.org/en/2017/12/last-13-lines-of-output/
+    "_R_CHECK_TESTS_NLINES_" = 0,
     "RGL_USE_NULL" = "TRUE",
     DISPLAY = "",
     RSTUDIO = 0,
