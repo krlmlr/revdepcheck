@@ -172,6 +172,7 @@ cat_package_info <- function(cmp, file) {
     addifx("BugReports"),
     addifx("Date/Publication"),
     paste0("* Number of recursive dependencies: ", num_deps(chk$package)),
+    paste0("* Number of recursive reverse dependencies: ", num_revdeps(chk$package)),
     paste0("\nRun `revdep_details(,\"", chk$package, "\")` for more info")
   )
   out <- wrap_tag("details", out)
@@ -181,6 +182,11 @@ cat_package_info <- function(cmp, file) {
 num_deps <- function(pkg) {
   repos <- get_repos(bioc = TRUE)
   length(cran_deps(pkg, repos))
+}
+
+num_revdeps <- function(pkg) {
+  repos <- get_repos(bioc = TRUE)
+  length(cran_revdeps(pkg, repos))
 }
 
 pkg_source_link <- function(chk) {
